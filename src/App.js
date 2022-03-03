@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import './styles/App.scss';
+import Cards from './components/cards/index';
 
 function App() {
+  const [data, setData] = useState([])
+
+  useEffect(() =>{
+    fetch('/getdata')
+    .then(res => res.json())
+    .then((data) => {
+      setData(data)
+    })
+  },[])
+
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container'>
+      <div className='grid'>
+        
+        {data.map((i, key) => (
+            <Cards 
+              Title={i.ettitle}
+              Category= {i.etcat}
+              Date= {i.etdate}
+              Location= {i.etlocation}
+              Img= { `/images/${i.etimg}.jpg`}
+            /> 
+        ))}
+
+      </div>
     </div>
   );
 }
